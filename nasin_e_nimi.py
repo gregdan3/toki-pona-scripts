@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """ mi tawa e nasin lili. ni li ike mute. """
+import argparse
 import json
 import os
 
@@ -67,7 +68,7 @@ def filter(
     return nimi_sin
 
 
-def main():
+def main(argv):
     word_files = ["./nimi_pu.txt", "./nimi_pi_pu_ala.txt"]
 
     nimi = {}
@@ -76,12 +77,58 @@ def main():
         [nimi.update(process_line(line)) for line in f]
         f.close()
 
-    # loje and pu are the only nimi pu with a single definition in `nimi_pu.txt`
-    # nimi = filter(
-    #     nimi, minscore=50, minsize=2, maxsize=5, override=["pu", "yupekosi", "loje"]
-    # )
+    # loje and pu are the only nimi pu with one definition in `nimi_pu.txt`
+    nimi = filter(
+        nimi,
+        minscore=argv.minscore,
+        minsize=argv.minsize,
+        maxsize=argv.maxsize,
+        override=argv.override,
+    )
     print(json.dumps(nimi))
 
 
 if __name__ == "__main__":
-    main()
+    PARSER = argparse.ArgumentParser()
+    PARSER.add_argument(
+        "--minscore",
+        "-s",
+        dest="minscore",
+        default=0,
+        choices=range(0, 101),
+        type=int,
+        help="Remove words with lower than min-score frequency score",
+        metavar="[0-100]",
+    )
+    PARSER.add_argument(
+        "--minsize",
+        "-n",
+        dest="minsize",
+        default=0,
+        type=int,
+        help="Remove words with fewer than min-size definitions",
+        metavar="MIN",
+    )
+    PARSER.add_argument(
+        "--maxsize",
+        "-m",
+        dest="maxsize",
+        default=0,
+        type=int,
+        help="Reduce the number of definitions of a word to max-size",
+        metavar="MAX",
+    )
+    PARSER.add_argument(
+        "--override",
+        "-o",
+        dest="override",
+        default=[],
+        type=str,
+        help="Ignore filtering behavior for given word(s)",
+        metavar="OVERRIDE",
+        nargs="*",
+    )
+
+    ARGV = PARSER.parse_args()
+
+    main(ARGV)
