@@ -55,7 +55,7 @@ def filter(
         if minsize and nlen < minsize:
             continue
 
-        nimi_lipu = [w for w in nimi_lipu if w["score"] > minscore]
+        nimi_lipu = [w for w in nimi_lipu if w["score"] >= minscore]
 
         if maxsize and nlen > maxsize:
             # assumption: nimi_lipu is score sorted
