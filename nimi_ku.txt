@@ -1,0 +1,1 @@
+ku: ["interact with Toki Pona Dictionary 82"]

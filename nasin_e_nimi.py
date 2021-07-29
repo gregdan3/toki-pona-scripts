@@ -69,7 +69,7 @@ def filter(
 
 
 def main(argv):
-    word_files = ["./nimi_pu.txt", "./nimi_pi_pu_ala.txt"]
+    word_files = ["./nimi_pu.txt", "./nimi_pi_pu_ala.txt", "./nimi_ku.txt"]
 
     nimi = {}
     for file in word_files:
