@@ -83,7 +83,6 @@ def main(argv):
 
         for line in f:
             if file == INPUT_FILES[1]:  # nimi pi pu ala
-                print(repr(line))
                 if line == JAN_MUTE_ALA:
                     source = SOURCES[-1]  # special case!
             nimi.update(process_line(line, source))
