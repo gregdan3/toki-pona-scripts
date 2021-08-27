@@ -4,6 +4,8 @@ import argparse
 import json
 import os
 
+INPUT_FILES = ["./nimi_pu.txt", "./nimi_pi_pu_ala.txt", "./nimi_ku.txt"]
+SOURCES = ["pu", "ku", "ku", "other"]
 
 def process_word(word: str) -> dict:
     # edge case: multi-word definitions (yupekosi), quotes in definition (pu)
@@ -69,12 +71,18 @@ def filter(
 
 
 def main(argv):
-    word_files = ["./nimi_pu.txt", "./nimi_pi_pu_ala.txt", "./nimi_ku.txt"]
-
     nimi = {}
-    for file in word_files:
+    source = SOURCES[0]  # TODO: find a better source for these docs?
+    for i, file in enumerate(INPUT_FILES):
+        source = SOURCES[i]
         f = open(file, "r")
-        [nimi.update(process_line(line)) for line in f]
+
+        for line in f:
+            if file == INPUT_FILES[1]:  # nimi pi pu ala
+                print(repr(line))
+                if line == JAN_MUTE_ALA:
+                    source = SOURCES[-1]  # special case!
+            nimi.update(process_line(line, source))
         f.close()
 
     # loje and pu are the only nimi pu with one definition in `nimi_pu.txt`
