@@ -6,6 +6,8 @@ import os
 
 INPUT_FILES = ["./nimi_pu.txt", "./nimi_pi_pu_ala.txt", "./nimi_ku.txt"]
 SOURCES = ["pu", "ku", "ku", "other"]
+JAN_MUTE_ALA = "# jan mute ala li kepeken nimi ni pi pu ala:\n"
+
 
 def process_word(word: str) -> dict:
     # edge case: multi-word definitions (yupekosi), quotes in definition (pu)
@@ -19,13 +21,13 @@ def process_definitions(defs: str) -> list:
     return [process_word(defin.strip()) for defin in defs.split(",")]
 
 
-def process_line(line: str) -> dict:
+def process_line(line: str, source: str) -> dict:
     # edge case: files download in DOS format, spare whitespace, []
     if not line or line[0] == "#" or line == os.linesep:
         return {}
     word, *defs = line.split(":")
     defs = ":".join(defs).strip().replace("[", "").replace("]", "").replace('"', "")
-    return {word: process_definitions(defs)}
+    return {word: {"meanings": process_definitions(defs), "source": source}}
 
 
 def filter(
