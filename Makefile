@@ -13,4 +13,4 @@ nimi_lili.json: o_ante_e_lipu_nimi.py nimi_pu.txt nimi_pi_pu_ala.txt nimi_ku.txt
 	python ./o_ante_e_lipu_nimi.py --maxsize=4 --minscore=40 | jq > nimi_lili.json
 
 clean:
-	rm nimi_pu.txt nimi_pi_pu_ala.txt compounds.txt nimi.json nimi_lili.json
+	rm -f nimi_pu.txt nimi_pi_pu_ala.txt compounds.txt nimi.json nimi_lili.json
