@@ -51,23 +51,25 @@ def filter(
     """
     nimi_sin = {}
     for key in nimi:
-        nimi_lipu = nimi[key]
-        nlen = len(nimi_lipu)
+        defs_of_nimi = nimi[key]["meanings"]
+        nlen = len(defs_of_nimi)
 
         if override and key in override:
-            nimi_sin[key] = nimi_lipu
+            nimi_sin[key] = nimi[key]
+            continue
 
         if minsize and nlen < minsize:
             continue
 
-        nimi_lipu = [w for w in nimi_lipu if w["score"] >= minscore]
+        defs_of_nimi = [w for w in defs_of_nimi if w["score"] >= minscore]
 
         if maxsize and nlen > maxsize:
             # assumption: nimi_lipu is score sorted
-            nimi_lipu = nimi_lipu[:maxsize]
+            defs_of_nimi = defs_of_nimi[:maxsize]
 
-        if nimi_lipu:
-            nimi_sin[key] = nimi_lipu
+        if defs_of_nimi:
+            nimi_sin[key] = nimi[key]
+            nimi_sin[key]["meanings"] = defs_of_nimi
 
     return nimi_sin
 
