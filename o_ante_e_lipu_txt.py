@@ -30,7 +30,7 @@ def process_line(line: str, source: str) -> dict:
     return {word: {"meanings": process_definitions(defs), "source": source}}
 
 
-def filter(
+def nimi_filter(
     nimi: dict,
     minscore: int = 0,
     minsize: int = 0,
@@ -89,7 +89,7 @@ def main(argv):
         f.close()
 
     # loje and pu are the only nimi pu with one definition in `nimi_pu.txt`
-    nimi = filter(
+    nimi = nimi_filter(
         nimi,
         minscore=argv.minscore,
         minsize=argv.minsize,
@@ -134,7 +134,7 @@ if __name__ == "__main__":
         "-o",
         dest="override",
         default=[],
-        type=str,
+        type=list,
         help="Ignore filtering behavior for given word(s)",
         metavar="OVERRIDE",
         nargs="*",
